@@ -1,0 +1,116 @@
+---
+title: "R Notebook"
+output:
+  word_document: default
+  html_notebook: default
+---
+
+# 4 Multiple Linear Regression using R
+
+
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+library(MASS)
+```
+
+
+```{r}
+data("mtcars")
+```
+
+```{r}
+? mtcars
+```
+
+```{r}
+View(mtcars)
+```
+
+
+### model using only weight as variable
+
+```{r}
+mpgModel_wt = lm(formula = mpg ~ wt, data = mtcars)
+```
+
+
+```{r}
+plot(mpgModel_wt, which =1)
+```
+
+```{r}
+# Creating a data frame with actual values and predicted values.
+mpgPredictions_wt = data.frame(mpg = mtcars$mpg, pred = mpgModel_wt$fitted.values)  
+```
+
+```{r}
+mpgPredictions_wt
+```
+```{r}
+ggplot(data = mpgPredictions_wt, aes(x = mpg , y = pred)) + geom_point() + geom_abline(mapping = aes(slope = 1, intercept = 0), color ='red ')
+```
+
+```{r}
+summary(mpgModel_wt)
+```
+Residual standard error of the model with only weight as variable: 3.046
+
+### model using all variable
+
+```{r}
+mpgModel_all = lm(formula = mpg ~ cyl + disp + hp + drat + wt + qsec + vs + am + gear + carb, data = mtcars)
+```
+
+```{r}
+plot(mpgModel_all, which =1)
+```
+
+```{r}
+# Creating a data frame with actual values and predicted values.
+mpgPredictions_all = data.frame(mpg = mtcars$mpg, pred = mpgModel_all$fitted.values)  
+```
+
+
+```{r}
+mpgPredictions_all
+```
+```{r}
+ggplot(data = mpgPredictions_all, aes(x = mpg , y = pred)) + geom_point() + geom_abline(mapping = aes(slope = 1, intercept = 0), color ='red ')
+```
+```{r}
+summary(mpgModel_all)
+```
+Residual standard error by using all variables in the model is: 2.65
+
+
+### using the built in R step() function with backward option.
+
+```{r}
+reducedModel  = step(mpgModel_all, direction ="backward")
+```
+```{r}
+summary(reducedModel)
+```
+Residual standard error by using step() function is: 2.459
+
+
+```{r}
+# Creating a data frame with actual values and predicted values.
+mpgPredictions = data.frame(mpg = mtcars$mpg, pred_ConsideringOnlyWeight = mpgModel_wt$fitted.values, pred_ConsideringAll = mpgModel_all$fitted.values, pred_UsingStepFun = reducedModel$fitted.values)  
+```
+
+
+```{r}
+mpgPredictions
+```
+As a summary:
+1) Residual standard error of the model with only weight as variable: 3.046
+2) Residual standard error by using all variables in the model is: 2.65
+3) Residual standard error by using step() function is: 2.459
+
+Hence by comparing Residual standard error, reducedModel by step function is a better fit for the data set.
+Residual standard error of the other models with the subsets will be greater than 2.459

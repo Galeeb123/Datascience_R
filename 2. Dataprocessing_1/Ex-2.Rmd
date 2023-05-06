@@ -1,0 +1,103 @@
+---
+title: "Assignment-2"
+output:
+  word_document: default
+  pdf_document: default
+---
+
+
+```{r}
+medals = data.frame(Country =c("NOR", "GER ", " CHN"),
+                    Gold =c(16 ,12 ,9) ,
+                    Silver =c(8 ,10 ,4) ,
+                    Bronze =c(13 ,5 ,2))
+medals
+```
+
+### 1. Select the first and third rows and the first and third columns
+
+```{r}
+medals[c(1,3),c(1,4)]
+```
+
+### 2. Return a data frame that contains just the CHN row.
+
+```{r}
+medals[c(3),]
+```
+### 3. Return a data frame that contains the medals of Norway and Germany.
+
+```{r}
+medals[1:2,]
+```
+
+### 4. Select countries who won ten or more gold medals and return the Country and Gold columns using the subset() command.
+
+```{r}
+subset(medals, Gold > 10, select = c(Country, Gold))
+```
+### 5. Sort the medals by bronze (descending).
+
+```{r}
+medals[order(-medals$Bronze), ]
+```
+
+# Beijing2022 Olympic Games data
+
+
+```{r}
+beijing2022Medals = read.csv("Beijing2022.csv", header = FALSE, sep = ";")
+colnames(beijing2022Medals) = c('Country','Gold','Silver','Bronze')
+beijing2022Medals
+```
+
+```{r}
+beijing2022Medals = beijing2022Medals[-1,]
+
+```
+
+
+```{r}
+beijing2022Medals
+```
+### 1. Similar to what we did before try and compute the total number of medals won for each country and add this as a fifth column to beijing2022Medals.
+
+```{r}
+beijing2022Medals$Total_medals = beijing2022Medals$Gold + beijing2022Medals$Silver + beijing2022Medals$Bronze
+beijing2022Medals
+```
+
+# 2. Order the rows by the total number of medals won.
+
+```{r}
+beijing2022Medals[order(-beijing2022Medals$Total_medals), ]
+```
+
+# 3. Sort the data first by the number of total medals won (in descending order) and then by the number of gold medals won (also in descending order).
+
+```{r}
+beijing2022Medals[order(-beijing2022Medals$Total_medals, -beijing2022Medals$Gold), ]
+```
+
+# 4. Calculate the total number of gold, silver and bronze medals won at Beijing 2022.
+
+```{r}
+Total_Gold = sum(beijing2022Medals[, c(2)])
+Total_Gold
+```
+```{r}
+Total_Silver = sum(beijing2022Medals[, c(3)])
+Total_Silver
+```
+```{r}
+Total_Bronze = sum(beijing2022Medals[, c(4)])
+Total_Bronze
+```
+
+
+# 5. Work out the overall number of medals won by all countries in the Olympic Games in 2022?
+
+```{r}
+sum(beijing2022Medals["Total_medals"])
+```
+

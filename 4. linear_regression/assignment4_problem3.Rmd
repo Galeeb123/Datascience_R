@@ -1,0 +1,74 @@
+---
+title: "R Notebook"
+output:
+  word_document: default
+  html_notebook: default
+---
+# Simple Linear Regression with R
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+library(MASS)
+```
+
+```{r}
+data("faithful")
+```
+
+```{r}
+str(faithful)
+```
+```{r}
+summary(faithful)
+```
+
+
+
+```{r}
+ggplot(data = faithful ,aes(x = waiting , y = eruptions)) + geom_point()
+```
+### Checking correlation
+
+```{r}
+cor.test(faithful$waiting, faithful$eruptions)
+```
+
+### Data fitting
+
+```{r}
+eruptionModel = lm(eruptions ~ waiting, data = faithful)
+```
+
+```{r}
+eruptionModel
+```
+
+Therefore equation of the fitted line is:
+
+                      eruptions = 0.07563 x waiting - 1.87402
+
+
+
+```{r}
+ggplot(data = faithful ,aes(x = waiting , y = eruptions)) + geom_point() + geom_abline(mapping = aes(slope = eruptionModel$coefficients[2], intercept = eruptionModel$coefficients[1]), color ='red ')
+```
+### Visualising all diagnostic plots
+
+```{r}
+layout(matrix (1:6, ncol = 2, byrow = TRUE))
+plot(eruptionModel, 1:6)
+```
+### Prediction
+
+```{r}
+newWaitingTime = data.frame( waiting = c(80))      # providing waiting time
+predict(eruptionModel, newdata = newWaitingTime)   # predicting eruption using eruptionModel
+```
+
+### Predicted eruption time for waiting time of 80 mins is 4.17622
+
+
+

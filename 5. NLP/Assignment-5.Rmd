@@ -1,0 +1,162 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# 3 Text Mining with the tm package
+
+```{r}
+install.packages("tm") > library(tm)
+```
+```{r}
+docs = Corpus(DirSource("./texts", encoding ="UTF-8"))
+```
+
+```{r}
+str(docs)
+```
+
+### We can use the summary() function to see what documents are loaded:
+
+```{r}
+summary(docs)
+```
+```{r}
+inspect(docs[1])
+```
+```{r}
+docs[[1]]
+```
+```{r}
+docs[[1]]$meta
+```
+
+```{r}
+docs[[1]]$content
+```
+### Converting the words to lowercase
+
+```{r}
+docs = tm_map(docs, content_transformer(tolower))
+docs[[1]]$content
+```
+### remove very common words of English (called ‘stopwords’)
+
+```{r}
+docs =  tm_map(docs, removeWords, stopwords("english"))
+docs[[1]]$content
+```
+
+### remove punctuation marks
+
+```{r}
+docs =  tm_map(docs, removePunctuation)
+docs[[1]]$content
+```
+
+```{r}
+trumpDTM = DocumentTermMatrix(docs)
+trumpDTM
+```
+```{r}
+inspect(trumpDTM)
+```
+
+```{r}
+View(inspect(trumpDTM))
+```
+
+
+```{r}
+inspect(trumpDTM[1:2, 1:2])
+```
+```{r}
+trumpDTMS = removeSparseTerms(trumpDTM, 0.05)
+trumpDTMS
+```
+
+```{r}
+inspect(trumpDTM[, c("news", "fake", "america", "great")])
+```
+
+# Explore in which documents (and with what frequencies) the terms “free”, “russia”, and “news” occur in.
+
+
+```{r}
+inspect(trumpDTM[, c("free", "russia", "news")])
+```
+### we want to list the words that occur at least 50 times
+
+```{r}
+trumpFreqTerms = findFreqTerms(trumpDTM, lowfreq = 50)
+trumpFreqTerms
+```
+```{r}
+trumpFreqTerms = colSums(as.matrix(trumpDTM))
+head(trumpFreqTerms)
+```
+
+```{r}
+sort(trumpFreqTerms, decreasing = TRUE)
+```
+
+```{r}
+trumpFreqTermsDF =  data.frame(word = names(trumpFreqTerms), freq = trumpFreqTerms)
+trumpFreqTermsDF
+```
+
+
+```{r}
+library("dplyr")
+```
+
+
+
+```{r}
+arrange(trumpFreqTermsDF, desc(freq))
+```
+
+```{r}
+trumpFreqTermsDF100 = subset(trumpFreqTermsDF, freq >= 100) %>% arrange(desc(freq))
+```
+
+```{r}
+barplot(trumpFreqTermsDF100$freq, names.arg = trumpFreqTermsDF100$word)
+```
+
+```{r}
+install.packages("wordcloud")
+```
+```{r}
+library(wordcloud)
+```
+
+```{r}
+set.seed(142)
+```
+
+
+```{r}
+wordcloud(trumpFreqTermsDF$word, trumpFreqTermsDF$freq, min.freq = 25)
+```
+
+
+```{r}
+findAssocs(trumpDTM, "fake", corlimit = 0.6)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

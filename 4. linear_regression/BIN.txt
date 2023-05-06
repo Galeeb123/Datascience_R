@@ -1,0 +1,15 @@
+The BIN model is a framework that helps researchers understand and analyze the different factors that influence decision-making. 
+The model consists of three components: 
+bias, information, and noise.
+
+Bias refers to any systematic errors or distortions in the decision-making process. 
+This could include things like personal beliefs, cultural norms, or unconscious biases that affect how people interpret and process information.
+
+Information refers to the quality and relevance of the data and evidence that people use to make decisions. 
+In order to make sound judgments, people need access to accurate, timely, and complete information that is relevant to the decision at hand.
+
+Noise refers to any random or unpredictable factors that can affect decision-making, such as external distractions, mood, or timing.
+ These factors can introduce variability and unpredictability into the decision-making process, making it more difficult to arrive at consistent and reliable decisions.
+
+Overall, the BIN model helps researchers understand how these three factors interact to influence decision-making, and provides a framework for identifying and addressing potential 
+sources of error or bias in the decision-making process.

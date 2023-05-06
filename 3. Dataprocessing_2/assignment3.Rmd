@@ -1,0 +1,117 @@
+---
+title: "R Notebook"
+output:
+  word_document: default
+  html_notebook: default
+  pdf_document: default
+---
+
+
+
+
+
+```{r}
+library("tidyverse")   # Importing packages
+```
+
+
+```{r}
+library("dplyr")  # Importing packages
+```
+
+
+```{r}
+mpg  # Displaying data. (data from tidyverse library)
+```
+# 3.1 Selecting rows/observations – filter()
+
+### 1. Filter rows where the manufacturer is Audi or the year of production (year) is 1999.
+
+
+```{r}
+filter (mpg, manufacturer =="audi" | year ==1999)
+```
+
+### 2. Filter rows where the year of production (year) is 1999 and the manufacturer is NOT Audi.
+
+```{r}
+filter (mpg , manufacturer !="audi" & year ==1999)
+```
+# 3.2 Reordering rows – arrange()
+
+
+```{r}
+beijing2022Medals = read.csv("Beijing2022.csv", header = FALSE, sep = ";")
+colnames(beijing2022Medals) = c('Country','Gold','Silver','Bronze')
+beijing2022Medals
+```
+
+```{r}
+beijing2022Medals = beijing2022Medals[-1,]
+```
+
+```{r}
+beijing2022Medals
+```
+
+```{r}
+arrange (beijing2022Medals , Country )
+```
+
+```{r}
+arrange(beijing2022Medals, desc(Gold), desc(Silver), desc(Bronze))
+```
+
+### 1. To better view the ordered tibble, pipe the results of the arrange function into the function View. Make sure that ties between countries with the same number of gold and silver medals are sorted based on the number of bronze medals.
+
+```{r}
+arrange(beijing2022Medals ,desc(Gold), desc(Silver), desc(Bronze)) %>%
+View()
+```
+
+# 3.3 Selecting columns - select()
+
+
+```{r}
+mpg %>% select ( manufacturer , hwy) %>%
+filter ( manufacturer !=" chevrolet " & hwy >=20) %>%
+arrange ( desc ( manufacturer ))
+```
+# 3.4 Creating new variables – mutate()
+
+```{r}
+beijing2022Medals$Total = mutate (beijing2022Medals, Total = Gold + Silver + Bronze)
+beijing2022Medals$Total
+  
+```
+# 3.5 Collapse many values down to a single summary – summarise()
+
+
+```{r}
+group_by(mpg , year , manufacturer ) %>% summarise(count =n())
+```
+
+### 1. How many unique models do each manufacturer produce?
+
+
+```{r}
+group_by(mpg, manufacturer, model) %>% distinct(model) %>% group_by(manufacturer) %>% summarise(count =n())
+```
+
+```{r}
+mpg
+```
+
+
+
+
+### 2. Create a new column with a ratio of highway (hwy) vs city (cty) range called HwyCtyRatio.
+
+```{r}
+mutate(mpg, HwyCtyRatio = hwy/cty)
+```
+
+
+
+
+

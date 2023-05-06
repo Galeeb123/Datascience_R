@@ -1,0 +1,179 @@
+---
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+
+# 3.1 Vectors
+
+1. Create the following vector x = (1.2 2.3 0.2 1.1)
+
+```{r}
+x = c(1.2, 2.3, 0.2, 1.1)
+print(x)
+```
+2. Check the class of the vector using the class() function.
+
+```{r}
+print(class(x))
+```
+3. Output the second element of the vector.
+
+
+```{r}
+print(x[2])
+```
+4. Output the elements 2 and 3 of the vector.
+
+```{r}
+print(x[2:3])
+```
+5. Replace the value of the first element of the vector.
+
+```{r}
+x[1]=0
+print(x)
+```
+
+6. Select all elements where the value is greater than 2.
+
+```{r}
+x[x>2]
+```
+7. One very helpful feature of vectors is that if we apply functions they will typically
+be carried out on all of the vectors. Square each value of x and assign it to a new
+variable called x.squared().
+
+```{r}
+y = x**2
+print(y)
+```
+8. Append the value 5.2 to x.
+
+```{r}
+x = append(x, 5.2)
+print(x)
+```
+9. Compute the mean value of the updated vector x and check its length.
+
+```{r}
+mean_x = mean(x)
+print(mean_x)
+```
+```{r}
+print(length(x))
+```
+10. Create a named vector containing the number of days of each month. Further,
+calculate the number of days in a year.
+
+```{r}
+days_months = c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+names(days_months) = c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
+print(days_months)
+sum(days_months)
+```
+
+# 3.2 Vectors
+
+
+
+```{r}
+P = matrix( 
+   c(2,3,4,5,6,7,8,9,1), # the data elements 
+   nrow=3,              # number of rows 
+   ncol=3,              # number of columns 
+   byrow = TRUE)        # fill matrix by rows 
+ 
+P                      # print the matrix 
+```
+1. Sum the values in the first row.
+
+```{r}
+sum(P[c(1,3),c(1,2)])
+```
+2. Sum the values in the first column.
+
+```{r}
+P[1,3]
+```
+3. Specifiy names for rows (“Row1, Row”) and columns (“Col1”, “Col2”).
+
+```{r}
+dimnames(P) = list( 
+   c("row1", "row2","row3"),         # row names 
+   c("col1", "col2", "col3")) # column names 
+ 
+P                 # print A 
+```
+
+4. Select the second row in the matrix p using its name (“Row2”).
+
+```{r}
+P[c("row1", "row3"),c("col1","col2")]
+```
+5. Remove the third column from matrix p.
+
+```{r}
+P[-3,]
+
+```
+6. Add the column back again.
+
+```{r}
+P
+```
+7. Create a matrix to represent the medal table for the 2022 Beijing Winter Olympics
+shown here: https://olympics.com/en/olympic-games/beijing-2022/medals. If
+you just want to use the first few countries that’s fine. Assign names to the (Country)
+rows and medal type (columns).
+
+```{r}
+MedalTable_beijinig_2022 = matrix( 
+   c(1,2,1,7,7, 4,0,2,0,1,0,1,4,8,14,1,0,1), # the data elements 
+   nrow=6,              # number of rows 
+   ncol=3,              # number of columns 
+   byrow = TRUE)        # fill matrix by rows 
+ 
+dimnames(MedalTable_beijinig_2022) = list( 
+   c("Australia", "Austria", "Belarus", "Belgium", "Canada", "Czech Republic"),         # row names 
+   c("Gold", "Silver", "Bronze")) # column names 
+ 
+MedalTable_beijinig_2022                 # print A 
+```
+
+
+# 3.3 Lists
+
+
+```{r}
+a = list ("a", 1, c(4 ,5 ,6))
+print(a)
+```
+1. Return the elements 1 and 3 as a list.
+
+
+```{r}
+a[c(1,3)]
+```
+2. Provide each element position a name (e.g., “One”, “Two”, “Three”).
+
+```{r}
+names(a) = c("One", "Two", "Three")
+```
+
+```{r}
+a
+```
+
+3. Select the first and third element using their name.
+
+```{r}
+a["One"]
+```
+```{r}
+a["Three"]
+```
+
+

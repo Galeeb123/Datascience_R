@@ -1,0 +1,174 @@
+---
+title: "R Notebook"
+output:
+  word_document: default
+  html_notebook: default
+---
+# 3 Data visualisation with R
+## 3.1 Exploring time-series data
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+library(dplyr)
+```
+
+```{r}
+library(lubridate)
+```
+
+```{r}
+library(nycflights13)
+```
+
+
+```{r}
+flightsEdited = flights %>%
+mutate(date = make_date(year, month, day))
+```
+
+```{r}
+flightsEdited
+```
+```{r}
+flightsEdited %>%
+select (year , month , day , date ) %>%
+head
+```
+```{r}
+daily = flightsEdited %>%
+group_by(date) %>%
+summarise (n=n())
+head(daily)
+```
+
+
+```{r}
+ggplot(daily, aes(date, n)) + geom_line()
+```
+
+```{r}
+updatedFlightsEdited = flightsEdited %>%
+mutate(weekday = wday(date, label = TRUE)) %>%
+mutate(month = month(date, label = TRUE))
+head(updatedFlightsEdited )
+```
+
+
+### Select just the data for January and compute the daily number of flights. Use ggplot to plot the data.
+
+```{r}
+jan_flights = filter(updatedFlightsEdited, month=="Jan")
+```
+
+
+```{r}
+daily_jan = jan_flights %>%
+  group_by(date) %>%
+  summarise(n=n())
+head(daily_jan)
+```
+```{r}
+ggplot(daily_jan, aes(date, n)) + geom_line()
+```
+
+### Group the data by weekday and month and visualise which days and months have the most flights going to/from NYC (the main airports to NYC are JFK and LGA).
+
+```{r}
+head(updatedFlightsEdited)
+```
+
+```{r}
+grouped_data = updatedFlightsEdited %>%
+  group_by(month, weekday, origin, dest)%>%
+  summarise(n=n()) %>%
+  filter(origin=="JFK" | origin=="LGA" | dest == "JFK" | dest=="LGA")
+head(grouped_data)
+```
+```{r}
+grouped_data
+```
+
+```{r}
+grouped_date = grouped_data %>%
+  group_by(month, weekday)%>%
+  summarise(n=n())%>%
+  mutate(date = make_date(month, weekday))
+head(grouped_date)
+```
+
+```{r}
+grouped_date
+```
+```{r}
+ggplot(grouped_date, aes(date, n)) + geom_line() + labs(x = "month", y = "flights to/from NYC", 
+              title = "Flights")
+```
+
+
+## 3.2 Creating a correlation matrix
+
+```{r}
+data("mtcars")
+str(mtcars)
+```
+### Correlation
+
+```{r}
+mcor = cor(mtcars)
+round(mcor, digits =2)
+```
+
+
+```{r}
+library(corrplot)
+corrplot(mcor)
+```
+
+
+
+```{r}
+library("GGally")
+```
+
+
+```{r}
+ggcorr(mcor)
+```
+
+### Using the cor.test() function, determine the actual correlation score between cyl and disp.
+
+```{r}
+cor.test(mtcars$cyl, mtcars$disp, method = "pearson")
+```
+
+## 3.3 Creating a heatmap
+
+```{r}
+nba = read.csv("http://datasets.flowingdata.com/ppg2008.csv", sep=",")
+head(nba)
+```
+
+```{r}
+row.names(nba) = nba$Name
+head(nba)
+```
+
+```{r}
+nba = nba[ ,2:20]
+```
+
+```{r}
+nbaMatrix = data.matrix(nba )
+```
+
+```{r}
+nbaMatrix
+```
+```{r}
+heatmap(nbaMatrix, Rowv = NA, Colv =NA, col = heat.colors(256), scale = "column", margins = c(5, 10))
+```
+
+
