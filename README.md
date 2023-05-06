@@ -29,4 +29,4 @@ This repository contains various projects and examples of data analysis using R.
   
 - <b>Exploring time-series data</b>
   -  The tine series data has been explored by using different visualizations to understand the data. To do so, the flights dataset contains for all flights that departed New York City (NYC) in 2013 has been analyzed.
-  -  In addition to that correlation matrix and heatmaps has been generated to understand the relations between the different variables of the data
+  -  In addition to that correlation matrix and heatmaps has been generated to understand the relations between the different variables of the data. All the corresponding files are available in `Data_visualization`
